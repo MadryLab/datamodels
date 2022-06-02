@@ -7,7 +7,7 @@ Make <a href='https://arxiv.org/abs/2202.00622'>datamodels</a> easily with <code
         [<a href='#examples'>examples</a>] [<a href='#tutorial'>overview</a>]
         <br/>
         <img src="static/clusters.png"/>
-        <it>One application: find model-meaningful clusters in your datasets</it>
+        <it>One application: find opposing clusters in your datasets</it>
         <br/>
 </p>
 
