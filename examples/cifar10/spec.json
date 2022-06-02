@@ -1,0 +1,13 @@
+{
+    "num_models": 10,
+    "schema": {
+        "masks": {
+            "shape": [50000],
+            "dtype": "bool_"
+        },
+        "margins": {
+            "shape": [10000],
+            "dtype": "float16"
+        }
+    }
+}

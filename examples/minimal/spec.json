@@ -1,0 +1,9 @@
+{
+    "schema": {
+        "random_numbers":{
+            "dtype":"uint8",
+            "shape":[256]
+        }
+    },
+    "num_models":10
+}
