@@ -1,0 +1,19 @@
+data:
+    data_path: 'OUT_DIR/data.beton' # Path to FFCV dataset
+    num_train: 90 # Number of models to use for training
+    num_val: 10 # Number of models to use for validation
+    seed: 0 # Random seed for picking validation set
+    target_start_ind: 0 # Select a slice of the data to run on
+    target_end_ind: -1 # Select a slice of the data to run on (-1 = end)
+    # If target_start_ind and target_end_ind are specified, will slice the
+    # output variable accordingly
+cfg:
+    k: 10 # Number of lambdas along the regularization path
+    batch_size: 10 # Batch size for regression, must divide num_train and num_val
+    lr: 1e-4 # Learning rate
+    eps: 1e-2 # Multiplicative difference between the highest and lowest lambda
+    out_dir: OUT_DIR # Where to save the results
+    num_workers: 8 # Number of workers for dataloader
+early_stopping:
+    check_every: 3 # How often to check for inner and outer-loop convergence
+    eps: 5e-1 # Tolerance for inner-loop convergence (see GLMNet docs)

@@ -17,14 +17,14 @@ python -m datamodels.training.initialize_store \
 # parallel parses each of these separately and sends them to the python invocation
 # there are 8 gpus available so we use 8 jobs and assign each a gpu according to the
 #   index number (i.e. the current `seq` output) modulo 8
-seq 0 9 | parallel -k --lb -j8 CUDA_VISIBLE_DEVICES='$(({%} % 8))' \
+seq 0 99 | parallel -k --lb -j8 CUDA_VISIBLE_DEVICES='$(({%} % 8))' \
  python -m datamodels.training.worker \
     --worker.index={} \
     --worker.main_import=examples.cifar10.train_cifar  \
     --worker.logdir=${tmp_dir}
 
 echo "\n\n"
-echo "jobs done! Data in: ${tmp_dir}..."
+echo "jobs done! Data in: ${tmp_dir}:"
 echo "> ${tmp_dir}/masks.npy: shape (10, 50000) bool masks matrix; M[i,j]=true if training example j in train set for model i"
 echo "> ${tmp_dir}/margins.npy: shape (10, 10000) float16 margins matrix; M[i,j]=model i margin on test example j"
 echo "> ${tmp_dir}/_completed.npy: shape (10,) bool completion matrix; M[i] = was model i completed"
