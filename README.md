@@ -46,7 +46,7 @@ The easiest way to learn how to use `datamodels` is by example, but we also prov
 </ul>
 
 ### Pre-computed data on CIFAR-10
-For pre-computed datamodels on CIFAR-10 (from traing hundreds of thousands of models!), check out <a href='github.com/MadryLab/datamodels-data'>here</a>.
+For pre-computed datamodels on CIFAR-10 (from traing hundreds of thousands of models!), check out [here](github.com/MadryLab/datamodels-data).
 
 
 ## Tutorial
@@ -56,7 +56,7 @@ Computing datamodels with the `datamodels` library has two main stages:
    could include predictions, logits, training data masks, or even model
    weights);</li>
     <li>**Regression**: Fitting a sparse linear model from any binary covariates (e.g., training
-   masks, as in [our paper]()) to a continuous outcome (e.g., margins, as in our
+   masks, as in [our paper](https://arxiv.org/abs/2202.00622)) to a continuous outcome (e.g., margins, as in our
    paper).</li>
     </ol>
     The first stage takes up the bulk of compute, but is readily parallelizable by nature.
