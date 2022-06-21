@@ -46,7 +46,7 @@ The easiest way to learn how to use `datamodels` is by example, but we also prov
 </ul>
 
 ### Pre-computed data on CIFAR-10
-For pre-computed datamodels on CIFAR-10 (from traing hundreds of thousands of models!), check out [here](github.com/MadryLab/datamodels-data).
+For pre-computed datamodels on CIFAR-10 (from traing hundreds of thousands of models!), check out [here](https://github.com/MadryLab/datamodels-data).
 
 
 ## Tutorial
