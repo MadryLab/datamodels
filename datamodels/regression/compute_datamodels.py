@@ -57,7 +57,8 @@ Section('cfg', 'arguments to give the writer').params(
     eps=Param(float, '(min lambda) / (max lambda)', default=1e-5),
     batch_size=Param(int, 'Batch size for regression', required=True),
     out_dir=Param(str, 'Where to write', required=True),
-    num_workers=Param(int, 'Num of workers to use for dataloading', default=16)
+    num_workers=Param(int, 'Num of workers to use for dataloading', default=16),
+    train_mode=Param(int, 'Whether to exclude models containing target', default=0)
 )
 
 Section('early_stopping', 'arguments specific to early stopping').params(
@@ -111,6 +112,7 @@ def make_loaders(num_train: int = -1, num_val: int = -1):
 @param('k')
 @param('eps')
 @param('out_dir')
+@param('train_mode')
 @section('early_stopping')
 @param('check_every', alias='early_stop_freq')
 @param('eps', alias='early_stop_eps')
@@ -119,6 +121,7 @@ def make_loaders(num_train: int = -1, num_val: int = -1):
 @param('target_end_ind')
 def main(lr: float, k: int, eps: float,
          out_dir: str,
+         train_mode: int,
          early_stop_freq: int,
          early_stop_eps: float,
          target_start_ind: int,
@@ -141,7 +144,11 @@ def main(lr: float, k: int, eps: float,
 
     assert not os.path.exists(out_dir)
     log_path = Path(out_dir) / 'regularization_path/'
+    final_log_path = Path(out_dir) / 'final_lambda/'
     os.makedirs(log_path)
+    os.makedirs(final_log_path)
+    y_slice = slice(target_start_ind,
+                    None if target_end_ind == -1 else target_end_ind)
     best_lam = \
         regressor.train_saga(weight,
                              bias,
@@ -153,7 +160,9 @@ def main(lr: float, k: int, eps: float,
                              num_lambdas=k,
                              early_stop_freq=early_stop_freq,
                              early_stop_eps=early_stop_eps,
-                             logdir=str(log_path))
+                             logdir=str(log_path),
+                             train_mode=bool(train_mode),
+                             y_slice=y_slice)
 
     ch.cuda.empty_cache()
     regressor.train_saga(weight,
@@ -166,7 +175,9 @@ def main(lr: float, k: int, eps: float,
                          num_lambdas=1,
                          early_stop_freq=early_stop_freq,
                          early_stop_eps=early_stop_eps,
-                         logdir='/tmp')
+                         logdir=str(final_log_path),
+                         train_mode=bool(train_mode),
+                         y_slice=y_slice)
     ch.save({
         'weight': weight.cpu(),
         'bias':  bias.cpu(),
