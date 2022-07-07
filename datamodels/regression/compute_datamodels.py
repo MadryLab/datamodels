@@ -141,7 +141,9 @@ def main(lr: float, k: int, eps: float,
 
     assert not os.path.exists(out_dir)
     log_path = Path(out_dir) / 'regularization_path/'
+    final_log_path = Path(out_dir) / 'final_lambda/'
     os.makedirs(log_path)
+    os.makedirs(final_log_path)
     best_lam = \
         regressor.train_saga(weight,
                              bias,
@@ -166,7 +168,7 @@ def main(lr: float, k: int, eps: float,
                          num_lambdas=1,
                          early_stop_freq=early_stop_freq,
                          early_stop_eps=early_stop_eps,
-                         logdir='/tmp')
+                         logdir=str(final_log_path))
     ch.save({
         'weight': weight.cpu(),
         'bias':  bias.cpu(),
