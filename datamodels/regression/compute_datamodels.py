@@ -57,7 +57,8 @@ Section('cfg', 'arguments to give the writer').params(
     eps=Param(float, '(min lambda) / (max lambda)', default=1e-5),
     batch_size=Param(int, 'Batch size for regression', required=True),
     out_dir=Param(str, 'Where to write', required=True),
-    num_workers=Param(int, 'Num of workers to use for dataloading', default=16)
+    num_workers=Param(int, 'Num of workers to use for dataloading', default=16),
+    use_bias=Param(int, 'Whether to use the bias parameter', default=1)
 )
 
 Section('early_stopping', 'arguments specific to early stopping').params(
@@ -111,6 +112,7 @@ def make_loaders(num_train: int = -1, num_val: int = -1):
 @param('k')
 @param('eps')
 @param('out_dir')
+@param('use_bias')
 @section('early_stopping')
 @param('check_every', alias='early_stop_freq')
 @param('eps', alias='early_stop_eps')
@@ -119,6 +121,7 @@ def make_loaders(num_train: int = -1, num_val: int = -1):
 @param('target_end_ind')
 def main(lr: float, k: int, eps: float,
          out_dir: str,
+         use_bias: int,
          early_stop_freq: int,
          early_stop_eps: float,
          target_start_ind: int,
@@ -151,6 +154,7 @@ def main(lr: float, k: int, eps: float,
                              val_loader,
                              lr=lr,
                              start_lams=max_lam,
+                             update_bias=(use_bias > 0),
                              lam_decay=np.exp(np.log(eps)/k),
                              num_lambdas=k,
                              early_stop_freq=early_stop_freq,
@@ -164,6 +168,7 @@ def main(lr: float, k: int, eps: float,
                          None,
                          lr=lr,
                          start_lams=best_lam,
+                         update_bias=(use_bias > 0),
                          lam_decay=1.,
                          num_lambdas=1,
                          early_stop_freq=early_stop_freq,
