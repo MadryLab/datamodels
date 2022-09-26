@@ -10,3 +10,4 @@ tqdm
 psutil
 webdataset
 torchmetrics
+git+https://github.com/MadryLab/fast_l1@main
