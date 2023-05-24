@@ -64,11 +64,12 @@ def kv_read(k, logdir, index):
     mmap = get_mmap(this_filename, 'r')
     return mmap[index]
 
+@param('worker.main_import')
 @param('worker.index')
 @param('worker.logdir')
 @param('worker.do_if_complete')
 @param('worker.job_timeout')
-def do_index(*_, index, routine, logdir, do_if_complete, job_timeout):
+def main(*_, main_import, index, logdir, do_if_complete, job_timeout):
     logdir = Path(logdir)
 
     print("logging in", logdir)
@@ -81,7 +82,9 @@ def do_index(*_, index, routine, logdir, do_if_complete, job_timeout):
         return False
 
     signal.alarm(job_timeout)
-    to_log = routine(index=index, logdir=str(worker_logs))
+    module = importlib.import_module(main_import)
+    make_config(quiet=True)
+    to_log = module.main(index=index, logdir=str(worker_logs))
 
     assert not COMPLETED in to_log, f"no '{COMPLETED}' key allowed in returned data"
     for k, v in to_log.items():
@@ -93,16 +96,6 @@ def do_index(*_, index, routine, logdir, do_if_complete, job_timeout):
         f.write(' '.join(sys.argv) + '\n')
 
     return True
-
-
-@param('worker.main_import')
-def main(main_import):
-    module = importlib.import_module(main_import)
-    make_config(quiet=True)
-
-    routine = module.main
-
-    status = do_index(routine=routine)
 
 if __name__ == '__main__':
     make_config(quiet=True)
