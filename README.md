@@ -18,7 +18,7 @@ This repository contains the code to compute *datamodels*, as introduced in our 
 
 **Datamodels: Predicting Predictions with Training Data** <br>
 *Andrew Ilyas, Sung Min Park, Logan Engstrom, Guillaume Leclerc, Aleksander Madry* <br>
-Paper: https://arxiv.org/abs/2112.01008 <br>
+Paper: [https://arxiv.org/abs/2112.01008](https://arxiv.org/abs/2202.00622) <br>
 
 ## Overview
 Use the `datamodels` library to compute datamodels for *any* choice of model and dataset:
